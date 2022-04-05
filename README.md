@@ -1,12 +1,16 @@
 # Rogue snapshotting using CRIU
 
-Rogue is a difficult, [unfair](img/unfair.png) game. And if you die, that's it, game over. Many hours lost. And you can't save your game in Rogue.†
+Rogue is a difficult, [unfair](img/unfair.png) game. And if you die, that's it, game over. 
+
+You can't save your game in Rogue, so your hours are just lost.†
 
 ![rogue game over screen](img/dead_screen.png)
 
-But - if you can suspend the running process into files that you _can_ copy, that gives you a save feature. Forget save / load, just snapshot the whole process! 
+But - if you can suspend the running process into files using CRIU, that gives you a save feature. 
 
-This repo demonstrates using CRIU to snapshot a Rogue docker.
+Forget save / load, just snapshot the whole process! 
+
+This repo demonstrates using [CRIU](https://criu.org/Main_Page) to snapshot Rogue.
 
 ## Usage
 
