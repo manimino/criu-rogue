@@ -45,6 +45,8 @@ After stopping / starting the container, the `/state` directory is still there. 
 
 ## Notes
 
+Makes heavy use of [critmux](https://github.com/jpetazzo/critmux).
+
 This method can be applied to any process, of course. Rogue / Nethack types of games are just a nice example use case. Since this method lets you save at any instant in a game, it could be great for tool-assisted speedrunning, debugging, or game-playing AI development.
 
 Since rogue is running in tmux, Ctrl+b will do tmux things rather than moving down-left fast.
