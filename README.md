@@ -55,7 +55,7 @@ Since rogue is running in tmux, Ctrl+b will do tmux things rather than moving do
 
 † Some versions of Rogue later added a save feature, but the typical Rogue on Ubuntu / Debian doesn't have one. Instead it has a sort of pause feature. You can "save", but the save file is deleted when you load it. There's also protection against copying the file: it checks if the inode has changed. This is not easy to circumvent. You'd have to change the source code, hex-edit the save file, or do some low-level hacking on your filesystem. Snapshotting is nicer; it'll work on this, and on many other problems too.
 
-If you haven't played Rogue before, start with the [manual](docs/rogue-manual.pdf). To learn strategies, consult the [tables](docs/tables.md) and [tips](docs/tips.md) pages. And the [source code](https://salsa.debian.org/ucko/bsdgames-nonfree/-/tree/master) is readable too.
+If you haven't played Rogue before, start with the [manual](docs/rogue-manual.pdf). To learn strategies, consult the [tables](docs/tables.md) and [tips](docs/tips.md) pages. Or consult the [source code](https://salsa.debian.org/ucko/bsdgames-nonfree/-/tree/master).
 
 ![rogue win screen](img/win.png)
 

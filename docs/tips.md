@@ -52,6 +52,6 @@ Once you have the Amulet of Yendor and begin ascending, your digestion slows. Ha
 
 ### Wizard mode
 
-Type `Ctrl+W` and you will be prompted to enter a password. The correct password opens up Wizard Mode. In Wizard Mode, all your items are identified. You can freely move between floors as if you had the Amulet and without the need for stairs. Wizards take less damage from attacks, dodge more, and deal more damage.
+Type `Ctrl+W` and you will be prompted to enter a password. The password is `bathtub`. This puts you in Wizard Mode. In Wizard Mode, all your items are identified. You can freely move between floors as if you had the Amulet and without the need for stairs. Wizards take less damage from attacks, dodge more, and deal more damage. 
 
-This could spoil the game for some, so the password is in a separate document [over here](password.md).
+If you have ever been a wizard, you don't get onto the high score board when winning the game.
