@@ -43,19 +43,19 @@ And you've got two Rogues:
 
 ## How it works
 
-The `wrapper` Python script catches the SIGTERM from `docker stop` and dumps the tmux state to `/state`. On resume, `wrapper` restores the tmux process along with its children. Original implementation is in the forked repo.
+The `wrapper` Python script catches the SIGTERM from `docker stop` and dumps the tmux state to `/state`. On resume, `wrapper` restores the tmux process along with its children. Original implementation is from the [critmux](https://github.com/jpetazzo/critmux) repo.
 
 After stopping / starting the container, the `/state` directory is still there. If you like, you can copy its contents out as well, via `docker cp ro-1:/state .` The state dir is small (1.7 MB) - a nice alternative to creating 500MB dockers just to save and load your Rogue game. You would need to adjust the container's `wrapper` script to point at a different dir in order to load your saved state back in. A good improvement idea.
 
 ## Notes
-
-Makes heavy use of [critmux](https://github.com/jpetazzo/critmux).
 
 This method can be applied to any process, of course. Rogue / Nethack types of games are just a nice example use case. Since this method lets you save at any instant in a game, it could be great for tool-assisted speedrunning, debugging, or game-playing AI development.
 
 Since rogue is running in tmux, Ctrl+b will do tmux things rather than moving down-left fast.
 
 † Some versions of Rogue later added a save feature, but the typical Rogue on Ubuntu / Debian doesn't have one. Instead it has a sort of pause feature. You can "save", but the save file is deleted when you load it. There's also protection against copying the file: it checks if the inode has changed. This is not easy to circumvent. You'd have to change the source code, hex-edit the save file, or do some low-level hacking on your filesystem. Snapshotting is nicer; it'll work on this, and on many other problems too.
+
+If you haven't played Rogue before, start with the [manual](docs/rogue-manual.pdf). To learn strategies, consult the [tables](docs/tables.md) and [tips](docs/tips.md) pages. And the [source code](https://salsa.debian.org/ucko/bsdgames-nonfree/-/tree/master) is readable too.
 
 ![rogue win screen](img/win.png)
 
