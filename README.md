@@ -1,4 +1,4 @@
-# Rogue snapshotting using CRIU
+# Rogue save states using CRIU
 
 Rogue is a difficult, random game. And if you die, that's it, game over. 
 
@@ -6,9 +6,7 @@ You can't save your game in Rogue, so your hours are just lost.†
 
 ![rogue game over screen](img/dead_screen.png)
 
-But - if you can suspend the running process into files using CRIU, that gives you a save feature. 
-
-Let's make our own savegame feature by snapshotting the whole process! 
+But using CRIU, we can dump running processes to disk and load them back.
 
 This repo demonstrates using [CRIU](https://criu.org/Main_Page) to snapshot Rogue.
 
@@ -51,19 +49,23 @@ It is not known how kernel-dependent the saves are.
 
 ### Beyond Rogue
 
-![rogue win screen](img/ninvaders.png)
+![ninvaders](img/ninvaders.png)
 
-The criu-rogue docker actually works on *anything* you can run in tmux. Just do `apt-get install ninvaders` or `nethack-consolegames` to try those. Save and load is the same process.
+The criu-rogue docker actually works on *anything* you can run in tmux. For more games, just do `apt-get install ninvaders` or `nethack-consolegames` to try those. Save and load is the same process.
 
-Since this method lets you save-state at any instant, it could be great for tool-assisted speedrunning, debugging, or AI development. 
+Since you can save-state at any instant, it could be great for tool-assisted speedrunning, debugging, or AI development. 
 
-Of course, it can't save network-connected applications; you'd have to snapshot the Internet for that to work.
+Of course, it won't work on network-connected applications; you'd have to snapshot the Internet along with it.
 
-### CRIU
+### More CRIU
 
 CRIU is a powerful and underused tool. It's not just for games! Caching the state of a whole application could skip many computations. Further, you don't need to modify the source code to use CRIU, or even have it. 
 
-[Critmux](https://github.com/jpetazzo/critmux) inspired this project; it connects suspend / resume to Docker's start and stop features.
+See also:
+
+ [Critmux](https://github.com/jpetazzo/critmux) inspired this project. It connects CRIU's suspend / resume functions to Docker's start and stop features. 
+ 
+ [Docker Checkpoint](https://docs.docker.com/engine/reference/commandline/checkpoint/) is also a thing.
 
 ### About Rogue
 
