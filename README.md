@@ -1,5 +1,9 @@
 # Rogue save states using CRIU
 
+You know [Rogue](img/rogue.png). It's what roguelikes are made of. 
+
+But you haven't beaten it. Why is that? 
+
 Rogue is a difficult, random game. And if you die, that's it, game over. 
 
 You can't save your game in Rogue, so your hours are just lost.†
