@@ -12,9 +12,7 @@ You can't save your game in Rogue, so your hours are just lost.†
 
 But using [CRIU](https://criu.org/Main_Page), we can dump running processes to disk and load them back.
 
-So let's make a save system for Rogue. 
-
-No code modification, no clunky VMs. Just CRIU in Docker.
+So here's a save system for Rogue. No code modification, no clunky VMs. Just CRIU in Docker.
 
 ## Usage
 
