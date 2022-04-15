@@ -40,10 +40,6 @@ Make sure you're not already running tmux, of course.
 
 Then attach to the tmux session with `tmux attach`.
 
-![rogue win screen](img/win.png)
-
-Best of luck on your journey to the Amulet and back.
-
 ### Portability
 
 Each save is a few megabytes. They will show up in the `saves/` subdirectory outside the container.
@@ -57,7 +53,7 @@ It is not known how kernel-dependent the saves are.
 
 ![rogue win screen](img/ninvaders.png)
 
-The criu-rogue docker actually works on *anything* you can run in tmux. Just do `apt-get install ninvaders` or `nethack-console` to try those. Save and load is the same process.
+The criu-rogue docker actually works on *anything* you can run in tmux. Just do `apt-get install ninvaders` or `nethack-consolegames` to try those. Save and load is the same process.
 
 Since this method lets you save-state at any instant, it could be great for tool-assisted speedrunning, debugging, or AI development. 
 
@@ -75,3 +71,7 @@ CRIU is a powerful and underused tool. It's not just for games! Caching the stat
 
 If you haven't played Rogue before, start with the [manual](docs/rogue-manual.pdf). To learn strategies, consult the [tables](docs/tables.md) and [tips](docs/tips.md) pages. Or consult the [source code](https://salsa.debian.org/ucko/bsdgames-nonfree/-/tree/master) itself.
 
+
+![rogue win screen](img/win.png)
+
+Best of luck on your journey to the Amulet and back.
