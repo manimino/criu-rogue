@@ -1,0 +1,55 @@
+#!/usr/bin/env python3
+import os
+import subprocess
+import sys
+
+def run_cmd(cmd, silent=False):
+    if silent:
+        # CRIU shows errors even when it works. Suppress it.
+        return subprocess.check_call(cmd, shell=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL)  
+    else:
+        return subprocess.check_call(cmd, shell=True)
+
+if not len(sys.argv) == 2:
+    print('Usage: save dirname')
+    sys.exit(1)
+
+savename = sys.argv[1]
+savedir = savename
+if not savedir.startswith('/'):
+    savedir = '/saves/' + savedir
+
+# get tmux pid
+try:
+    pid = subprocess.check_output(["pidof", "tmux"])
+    pid = pid.decode("ascii").strip()
+except:
+    pid = None
+
+if pid is None:
+    print('No tmux process found - cannot save.')
+    sys.exit(2)
+elif len(pid.split()) > 1:
+    print('Found multiple tmux pids: [{}]. Detach from tmux before running save-to.'.format(pid))
+    sys.exit(3)
+
+
+# check exists
+if os.path.isdir(savedir):
+    response = input('Overwrite "{}" (y/n)? '.format(savedir))
+    if response.lower() not in ['y', 'yes']:
+        print('Save aborted.')
+        sys.exit(0)
+    else:
+        run_cmd('rm -rf {}'.format(savedir))  # good thing we're in a container
+
+# create dir if needed
+if not os.path.isdir(savedir):
+    os.mkdir(savedir)
+
+# save
+run_cmd("criu dump --leave-running --tree {} --images-dir {}".format(pid, savedir), silent=True)
+print('Saved to {}.'.format(savedir))
+print('Resume your game with "tmux attach".'.format(savedir))

@@ -1,6 +1,6 @@
 # Rogue snapshotting using CRIU
 
-Rogue is a difficult, [unfair](img/unfair.png) game. And if you die, that's it, game over. 
+Rogue is a difficult, random game. And if you die, that's it, game over. 
 
 You can't save your game in Rogue, so your hours are just lost.†
 
@@ -8,19 +8,48 @@ You can't save your game in Rogue, so your hours are just lost.†
 
 But - if you can suspend the running process into files using CRIU, that gives you a save feature. 
 
-Forget save / load, just snapshot the whole process! 
+Let's make our own savegame feature by snapshotting the whole process! 
 
 This repo demonstrates using [CRIU](https://criu.org/Main_Page) to snapshot Rogue.
 
 ## Usage
 
+### Running
+
 Build it: `docker build -t criu-rogue .`
 
-Run it: `docker run -t -i --privileged --name ro-1 criu-rogue` then type `rogue` to play
+Run it: `docker run -v $PWD/saves:/saves --privileged -it criu-rogue`
 
-Suspend it: `docker stop ro-1`
+Play it: `tmux`, then `rogue`
 
-Export the container (while suspended): `docker export ro-1 > ro-1.tgz` 
+### Saving
+
+We'll be snapshotting the whole tmux session.
+
+CRIU can't snapshot it while you're attached. So detach with `Ctrl+b, d` first. 
+(Ctrl+b enters the tmux Command Mode, and "d" detaches.)
+
+Run `save save1`. This will snapshot the tmux process tree to the `/saves/save1` dir.
+
+### Loading
+
+Run `load save1`. It will load the tmux process tree from disk.
+
+Make sure you're not already running tmux, of course.
+(Quit Rogue with `Shift+Q, y` if needed. `exit` to quit tmux.)
+
+Then attach to the tmux session with `tmux attach`.
+
+## Notes
+
+### Ideas
+
+
+
+
+
+
+Export the container: `docker export ro-1 > ro-1.tgz` 
 
 Resume the original: `docker start ro-1; docker attach ro-1`
 
@@ -43,7 +72,7 @@ And you've got two Rogues:
 
 ## How it works
 
-The `wrapper` Python script catches the SIGTERM from `docker stop` and dumps the tmux state to `/state`. On resume, `wrapper` restores the tmux process along with its children. Original implementation is from the [critmux](https://github.com/jpetazzo/critmux) repo.
+Original implementation is from the [critmux](https://github.com/jpetazzo/critmux) repo.
 
 After stopping / starting the container, the `/state` directory is still there. If you like, you can copy its contents out as well, via `docker cp ro-1:/state .` The state dir is small (1.7 MB) - a nice alternative to creating 500MB dockers just to save and load your Rogue game. You would need to adjust the container's `wrapper` script to point at a different dir in order to load your saved state back in. A good improvement idea.
 
@@ -60,3 +89,5 @@ If you haven't played Rogue before, start with the [manual](docs/rogue-manual.pd
 ![rogue win screen](img/win.png)
 
 Happy savescumming!
+
+

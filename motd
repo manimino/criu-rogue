@@ -1,0 +1,15 @@
+======================
+Welcome to criu-rogue!
+======================
+
+Start Rogue: 'tmux', then 'rogue'
+
+Save your game:
+- Detach from tmux with 'Ctrl+b, d'
+- 'save save1'
+
+Load game:
+- Exit any tmux sessions
+- 'load save1'
+
+Have fun!

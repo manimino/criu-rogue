@@ -24,6 +24,11 @@ RUN make -C criu-$CRIU
 RUN cp criu-$CRIU/criu/criu /usr/local/sbin
 # now get rogue
 RUN apt-get -qy install bsdgames-nonfree
-ADD wrapper /usr/local/sbin/
+# add scripts
+RUN mkdir /saves
+ADD save /usr/local/sbin/
+ADD load /usr/local/sbin/
+ADD motd /
 ENV PATH="/usr/games:${PATH}"
-CMD ["wrapper"]
+RUN echo "cat /motd" >> ~/.bashrc
+CMD ["bash"]
