@@ -22,28 +22,24 @@ Play it: `tmux`, then `rogue`
 
 ### Saving
 
-We'll be snapshotting the whole tmux session.
+We'll be snapshotting the tmux process tree, which includes rogue.
 
-CRIU can't snapshot it while you're attached. So detach with `Ctrl+b, d` first. 
+CRIU can't snapshot it while you're attached, so detach with `Ctrl+b, d` first. 
 (Ctrl+b enters the tmux Command Mode, and "d" detaches.)
 
 Run `save save1`. This will snapshot the tmux process tree to the `/saves/save1` dir.
 
 ### Loading
 
-Run `load save1`. It will load the tmux process tree from disk.
+Run `load save1`. It will restore the tmux process tree from disk.
 
-Make sure you're not already running tmux, of course.
-(Quit Rogue with `Shift+Q, y` if needed. `exit` to quit tmux.)
-
-Then attach to the tmux session with `tmux attach`.
+Then attach to the new tmux session with `tmux attach`.
 
 ### Portability
 
 Each save is a few megabytes. They will show up in the `saves/` subdirectory outside the container.
 
-A save game created in one container should be usable in another container launched from the same OS.
-It is not known how kernel-dependent the saves are.
+A save game created in one container will be usable in another container launched from the same OS.
 
 ## Notes
 
