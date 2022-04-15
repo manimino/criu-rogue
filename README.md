@@ -10,9 +10,11 @@ You can't save your game in Rogue, so your hours are just lost.†
 
 ![rogue game over screen](img/dead_screen.png)
 
-But using CRIU, we can dump running processes to disk and load them back.
+But using [CRIU](https://criu.org/Main_Page), we can dump running processes to disk and load them back.
 
-This repo demonstrates using [CRIU](https://criu.org/Main_Page) to snapshot Rogue.
+So let's make a save system for Rogue. 
+
+No code modification, no clunky VMs. Just CRIU in Docker.
 
 ## Usage
 
