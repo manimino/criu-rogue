@@ -51,7 +51,7 @@ It is not known how kernel-dependent the saves are.
 
 ![ninvaders](img/ninvaders.png)
 
-The criu-rogue docker actually works on *anything* you can run in tmux. For more games, just do `apt-get install ninvaders` or `nethack-consolegames` to try those. Save and load is the same process.
+The criu-rogue docker actually works on *anything* you can run in tmux. For more games, do `apt-get install ninvaders` or `nethack-consolegames`. Save and load works the same as above.
 
 Since you can save-state at any instant, it could be great for tool-assisted speedrunning, debugging, or AI development. 
 
@@ -69,7 +69,7 @@ See also:
 
 ### About Rogue
 
-† Some versions of Rogue later added a save feature, but the typical Rogue on Ubuntu / Debian doesn't have one. Instead it has a sort of pause feature. You can "save", but the save file is deleted when you load it. There's also protection against copying the file: it checks if the inode has changed. This is not easy to circumvent. You'd have to change the source code, hex-edit the save file, or do some low-level hacking on your filesystem. Snapshotting is nicer; it'll work on this, and on many other problems too.
+† Some versions of Rogue later added a save feature, but the typical Rogue on Ubuntu / Debian doesn't have one. Technically you can "save", but the save file is deleted when you load it. There's also protection against copying the file: it checks if the inode has changed. This is not easy to circumvent. You'd have to change the source code, hex-edit the save file, or do some low-level hacking on your filesystem. So snapshotting is definitely the way to go.
 
 If you haven't played Rogue before, start with the [manual](docs/rogue-manual.pdf). To learn strategies, consult the [tables](docs/tables.md) and [tips](docs/tips.md) pages. Or consult the [source code](https://salsa.debian.org/ucko/bsdgames-nonfree/-/tree/master) itself.
 
