@@ -1,14 +1,14 @@
 # Rogue save states using CRIU
 
-You know [Rogue](img/rogue_.png). It's what roguelikes are made of. 
+![rogue game over screen](img/rogue_.png)
+
+You know Rogue. It's what roguelikes are made of. 
 
 But you haven't beaten it. Why is that? 
 
 Rogue is a difficult, random game. And if you die, that's it, game over. 
 
 You can't save your game in Rogue, so your hours are just lost.†
-
-![rogue game over screen](img/dead_screen.png)
 
 But using [CRIU](https://criu.org/Main_Page), we can dump running processes to disk and load them back.
 
