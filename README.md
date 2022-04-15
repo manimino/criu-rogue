@@ -1,6 +1,6 @@
 # Rogue save states using CRIU
 
-You know [Rogue](img/rogue.png). It's what roguelikes are made of. 
+You know [Rogue](img/rogue_.png). It's what roguelikes are made of. 
 
 But you haven't beaten it. Why is that? 
 
