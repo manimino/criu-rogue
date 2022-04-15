@@ -1,62 +1,79 @@
-# Rogue snapshotting using CRIU
+# Rogue save states using CRIU
 
-Rogue is a difficult, [unfair](img/unfair.png) game. And if you die, that's it, game over. 
+![rogue game over screen](img/rogue_.png)
+
+You know Rogue. It's what roguelikes are made of. 
+
+But you haven't beaten it. Why is that? 
+
+Rogue is a difficult, random game. And if you die, that's it, game over. 
 
 You can't save your game in Rogue, so your hours are just lost.†
 
-![rogue game over screen](img/dead_screen.png)
+But using [CRIU](https://criu.org/Main_Page), we can dump running processes to disk and load them back.
 
-But - if you can suspend the running process into files using CRIU, that gives you a save feature. 
-
-Forget save / load, just snapshot the whole process! 
-
-This repo demonstrates using [CRIU](https://criu.org/Main_Page) to snapshot Rogue.
+So here's a save system for Rogue. No code modification, no clunky VMs. Just CRIU in Docker.
 
 ## Usage
 
+### Running
+
 Build it: `docker build -t criu-rogue .`
 
-Run it: `docker run -t -i --privileged --name ro-1 criu-rogue` then type `rogue` to play
+Run it: `docker run -v $PWD/saves:/saves --privileged -it criu-rogue`
 
-Suspend it: `docker stop ro-1`
+Play it: `tmux`, then `rogue`
 
-Export the container (while suspended): `docker export ro-1 > ro-1.tgz` 
+### Saving
 
-Resume the original: `docker start ro-1; docker attach ro-1`
+We'll be snapshotting the tmux process tree, which includes rogue.
 
-Load exported container as a new image: `cat ro-1.tgz | docker import - ro-1-img`
+CRIU can't snapshot it while you're attached, so detach with `Ctrl+b, d` first. 
+(Ctrl+b enters the tmux Command Mode, and "d" detaches.)
 
-Run the new image: `docker run -t -i --privileged --name ro-2 ro-1-img wrapper`
+Run `save save1`. This will snapshot the tmux process tree to the `/saves/save1` dir.
 
-Now you have:
+### Loading
 
-```
-> docker ps
+Run `load save1`. It will restore the tmux process tree from disk.
 
-CONTAINER ID   IMAGE        COMMAND     CREATED          STATUS          PORTS     NAMES
-719d4d975640   ro-1-img     "wrapper"   6 seconds ago    Up 4 seconds              ro-2
-57fa293e8daf   criu-rogue   "wrapper"   55 seconds ago   Up 20 seconds             ro-1
-```
+Then attach to the new tmux session with `tmux attach`.
 
-And you've got two Rogues:
-![two copies of the same rogue game](img/double-rogue.png)
+### Portability
 
-## How it works
+Each save is a few megabytes. They will show up in the `saves/` subdirectory outside the container.
 
-The `wrapper` Python script catches the SIGTERM from `docker stop` and dumps the tmux state to `/state`. On resume, `wrapper` restores the tmux process along with its children. Original implementation is from the [critmux](https://github.com/jpetazzo/critmux) repo.
-
-After stopping / starting the container, the `/state` directory is still there. If you like, you can copy its contents out as well, via `docker cp ro-1:/state .` The state dir is small (1.7 MB) - a nice alternative to creating 500MB dockers just to save and load your Rogue game. You would need to adjust the container's `wrapper` script to point at a different dir in order to load your saved state back in. A good improvement idea.
+A save game created in one container will be usable in another container launched from the same OS.
 
 ## Notes
 
-This method can be applied to any process, of course. Rogue / Nethack types of games are just a nice example use case. Since this method lets you save at any instant in a game, it could be great for tool-assisted speedrunning, debugging, or game-playing AI development.
+### Beyond Rogue
 
-Since rogue is running in tmux, Ctrl+b will do tmux things rather than moving down-left fast.
+![ninvaders](img/ninvaders.png)
 
-† Some versions of Rogue later added a save feature, but the typical Rogue on Ubuntu / Debian doesn't have one. Instead it has a sort of pause feature. You can "save", but the save file is deleted when you load it. There's also protection against copying the file: it checks if the inode has changed. This is not easy to circumvent. You'd have to change the source code, hex-edit the save file, or do some low-level hacking on your filesystem. Snapshotting is nicer; it'll work on this, and on many other problems too.
+The criu-rogue docker actually works on *anything* you can run in tmux. For more games, do `apt-get install ninvaders` or `nethack-consolegames`. Save and load works the same as above.
 
-If you haven't played Rogue before, start with the [manual](docs/rogue-manual.pdf). To learn strategies, consult the [tables](docs/tables.md) and [tips](docs/tips.md) pages. Or consult the [source code](https://salsa.debian.org/ucko/bsdgames-nonfree/-/tree/master).
+Since you can save-state at any instant, it could be great for tool-assisted speedrunning, debugging, or AI development. 
+
+Of course, it won't work on network-connected applications; you'd have to snapshot the Internet along with it.
+
+### More CRIU
+
+CRIU is a powerful and underused tool. It's not just for games! Caching the state of a whole application could skip many computations. Further, you don't need to modify the source code to use CRIU, or even have it. 
+
+See also:
+
+ [Critmux](https://github.com/jpetazzo/critmux) inspired this project. It connects CRIU's suspend / resume functions to Docker's start and stop features. 
+ 
+ [Docker Checkpoint](https://docs.docker.com/engine/reference/commandline/checkpoint/) is also a thing.
+
+### About Rogue
+
+† Some versions of Rogue later added a save feature, but the typical Rogue on Ubuntu / Debian doesn't have one. Technically you can "save", but the save file is deleted when you load it. There's also protection against copying the file: it checks if the inode has changed. This is not easy to circumvent. You'd have to change the source code, hex-edit the save file, or do some low-level hacking on your filesystem. So snapshotting is definitely the way to go.
+
+If you haven't played Rogue before, start with the [manual](docs/rogue-manual.pdf). To learn strategies, consult the [tables](docs/tables.md) and [tips](docs/tips.md) pages. Or consult the [source code](https://salsa.debian.org/ucko/bsdgames-nonfree/-/tree/master) itself.
+
 
 ![rogue win screen](img/win.png)
 
-Happy savescumming!
+Best of luck on your journey to the Amulet and back.
