@@ -10,9 +10,9 @@ Rogue is a difficult, random game. And if you die, that's it, game over.
 
 You can't save your game in most versions of Rogue, so your hours are just lost.†
 
-But using [CRIU](https://criu.org/Main_Page), we can dump running processes to disk and load them back.
+But [CRIU](https://criu.org/Main_Page) is a magical tool that can checkpoint and restore any Linux process. So why not just dump the process to disk and load it back?
 
-So here's a save system for Rogue. No code modification, no clunky VMs. Just CRIU in Docker.
+This repo implements a save system for Rogue using Docker. While this is a fun game project, it's also a proof-of-concept for using CRIU on any process that can run in a terminal.
 
 ## Usage
 
