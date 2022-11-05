@@ -8,7 +8,7 @@ But you haven't beaten it. Why is that?
 
 Rogue is a difficult, random game. And if you die, that's it, game over. 
 
-You can't save your game in Rogue, so your hours are just lost.†
+You can't save your game in most versions of Rogue, so your hours are just lost.†
 
 But using [CRIU](https://criu.org/Main_Page), we can dump running processes to disk and load them back.
 
